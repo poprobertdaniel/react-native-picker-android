@@ -1,17 +1,16 @@
 'use strict';
-
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
 import {
 	StyleSheet,
-	View, 
-	Text, 
+	View,
+	Text,
 	Image,
 	Dimensions,
 	PixelRatio,
 	PanResponder
 } from 'react-native';
-
-class PickerAndroidItem extends Component{
+import PropTypes from 'prop-types';
+class PickerAndroidItem extends React.Component{
 
 	static propTypes = {
 		value: PropTypes.any,
@@ -28,15 +27,15 @@ class PickerAndroidItem extends Component{
 
 };
 
-export default class PickerAndroid extends Component{
+export default class PickerAndroid extends React.Component{
 
 	static Item = PickerAndroidItem;
 
 	static propTypes = {
 		//picker's style
-		pickerStyle: View.propTypes.style,
+		pickerStyle: PropTypes.any,
 		//picker item's style
-		itemStyle: Text.propTypes.style,
+		itemStyle: PropTypes.any,
 		//picked value changed then call this function
 		onValueChange: PropTypes.func,
 		//default to be selected value
@@ -78,8 +77,6 @@ export default class PickerAndroid extends Component{
 			child.props.value === props.selectedValue && ( selectedIndex = index );
 			items.push({value: child.props.value, label: child.props.label});
 		});
-		//fix issue#https://github.com/beefe/react-native-picker/issues/51
-		this.index = selectedIndex;
 		return {
 			selectedIndex,
 			items,
@@ -171,7 +168,7 @@ export default class PickerAndroid extends Component{
 
 	_renderItems(items){
 		//value was used to watch the change of picker
-		//label was used to display 
+		//label was used to display
 		let upItems = [], middleItems = [], downItems = [];
 		items.forEach((item, index) => {
 
@@ -203,7 +200,7 @@ export default class PickerAndroid extends Component{
 	}
 
 	_onValueChange(){
-		//the current picked label was more expected to be passed, 
+		//the current picked label was more expected to be passed,
 		//but PickerIOS only passed value, so we set label to be the second argument
 		//add by zooble @2015-12-10
 		var curItem = this.state.items[this.index];
@@ -216,17 +213,17 @@ export default class PickerAndroid extends Component{
 		let items = this._renderItems(this.state.items);
 
 		let upViewStyle = {
-			marginTop: (3 - index) * 30, 
-			height: length * 30, 
+			marginTop: (3 - index) * 30,
+			height: length * 30,
 		};
 		let middleViewStyle = {
-			marginTop:  -index * 40, 
+			marginTop:  -index * 40,
 		};
 		let downViewStyle = {
-			marginTop: (-index - 1) * 30, 
-			height:  length * 30, 
+			marginTop: (-index - 1) * 30,
+			height:  length * 30,
 		};
-		
+
 		return (
 			//total to be 90*2+40=220 height
 			<View style={[styles.container, this.state.pickerStyle]} {...this._panResponder.panHandlers}>
@@ -269,11 +266,13 @@ let styles = StyleSheet.create({
 	},
 	up: {
 		height: 90,
-		overflow: 'hidden'
+		overflow: 'hidden',
+		backgroundColor: 'transparent'
 	},
 	upView: {
 		justifyContent: 'flex-start',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundColor: 'transparent'
 	},
 	upText: {
 		paddingTop: 0,
@@ -309,12 +308,14 @@ let styles = StyleSheet.create({
 	},
 	down: {
 		height: 90,
-		overflow: 'hidden'
+		overflow: 'hidden',
+		backgroundColor: 'transparent'
 	},
 	downView: {
 		overflow: 'hidden',
 		justifyContent: 'flex-start',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundColor: 'transparent'
 	},
 	downText: {
 		paddingTop: 0,
